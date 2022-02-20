@@ -5,26 +5,32 @@ import { buildSchema } from "type-graphql";
 import { HelloResolver } from "./modules/users/Register";
 const mongoose = require("mongoose");
 import session from "express-session";
-import { redis } from "./redis";
-let RedisStore = require("connect-redis")(session);
+import cors from 'cors'
+import { loginResolver } from "./modules/users/login";
+
+
 const main = async () => {
   const schema = await buildSchema({
-    resolvers: [HelloResolver],
+    resolvers: [HelloResolver,loginResolver],
     nullableByDefault: true,
   });
 
   const apolloServer = new ApolloServer({
     schema,
     context: ({ req }: any) => ({ req }),
+    introspection: true,
+
   });
   await apolloServer.start();
 
   const app = Express();
+  
+  // app.use(cors({
+  //   credentials: true,
+  //   origin: "http://localhost:3000"
+  // }))
 
   const sessionOpts: session.SessionOptions = {
-    store: new RedisStore({
-      client: redis,
-    }),
     name: "ay 7aga",
     secret: "asdadasdasd",
     resave: false,

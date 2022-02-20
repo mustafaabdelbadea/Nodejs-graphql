@@ -1,34 +1,23 @@
 {
-    "compilerOptions": {
-      "target": "es6",
-      "module": "commonjs",
-      "lib": ["dom", "es6", "es2017", "esnext.asynciterable"],
-      "sourceMap": true,
-      "outDir": "./dist",
-      "moduleResolution": "node",
-      "declaration": false,
-  
-      "composite": false,
-      "removeComments": true,
-      "noImplicitAny": false,
-      "strictNullChecks": false,
-      "strictFunctionTypes": false,
-      "noImplicitThis": false,
-      "noUnusedLocals": false,
-      "noUnusedParameters": false,
-      "noImplicitReturns": false,
-      "noFallthroughCasesInSwitch": true,
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": false,
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-      "skipLibCheck": true,
-      "baseUrl": ".",
-      "rootDir": "src",
-    },
-    "exclude": ["node_modules"],
-    "include": ["./src/**/*.tsx", "./src/**/*.ts"],
-    "ts-node": {
-      "transpileOnly": true
-    }
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "outDir": "dist",
+    "removeComments": true,
+    "skipDefaultLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": ["esnext.asynciterable", "DOM"],
+    "types": ["node"]
+  },
+  "include": ["src"],
+  "exclude": ["test", "node_modules"],
+  "ts-node": {
+    "transpileOnly": true
   }
+}

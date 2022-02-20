@@ -11,7 +11,7 @@ import {
 } from "type-graphql";
 import { UserDocuemt, UserModel } from "../../models/Users";
 import { UserObjBase } from "./register/RegisterInput";
-const bcrypt = require("bcryptjs");
+import bcrypt from "bcryptjs";
 
 @ObjectType()
 class UserObj extends UserObjBase {
