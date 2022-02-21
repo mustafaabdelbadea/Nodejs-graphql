@@ -1,5 +1,6 @@
 import {
   Arg,
+  Authorized,
   Field,
   FieldResolver,
   InputType,
@@ -8,10 +9,13 @@ import {
   Query,
   Resolver,
   Root,
+  UseMiddleware,
 } from "type-graphql";
 import { UserDocuemt, UserModel } from "../../models/Users";
 import { UserObjBase } from "./register/RegisterInput";
 import bcrypt from "bcryptjs";
+import { isAuth } from "../middleware/isAuth";
+import { logger } from "../middleware/logger";
 
 @ObjectType()
 class UserObj extends UserObjBase {
@@ -25,6 +29,7 @@ class UserObj extends UserObjBase {
 
 @Resolver()
 export class HelloResolver {
+  @UseMiddleware(isAuth, logger)
   @Query(() => String, { name: "helloWorld" })
   async hello() {
     return "hello";
@@ -47,7 +52,7 @@ export class HelloResolver {
   //   async name(@Root() parent: UserObj): Promise<String> {
   //       return `${parent.firstName} ${parent.lastName}`
   //   }
-
+  @UseMiddleware(logger)
   @Mutation(() => UserObj)
   async register(@Arg("inputs") inputs: UserObjBase): Promise<UserObj> {
     const hashedPassword = await bcrypt.hash(inputs.password, 12);

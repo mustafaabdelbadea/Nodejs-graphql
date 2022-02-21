@@ -17,6 +17,9 @@ export class UserObjBase {
 
   @Field()
   password?: String;
+
+  @Field()
+  confirmed?: Boolean;
 }
 
 

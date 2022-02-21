@@ -9,7 +9,12 @@ const userSchema = new mongoose.Schema<IUser>(
       required: true,
     },
     password: String,
+    confirmed: {
+      type: Boolean,
+      default: false
+    }
   },
+
   {
     minimize: true,
     toJSON: {
@@ -26,6 +31,7 @@ export interface IUser {
   lastName: string;
   email: string;
   password: string;
+  confirmed: boolean;
 }
 
 export interface UserDocuemt extends Document, IUser {}

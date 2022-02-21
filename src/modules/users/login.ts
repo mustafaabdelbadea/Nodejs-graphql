@@ -37,8 +37,13 @@ export class loginResolver {
         throw error  
     }
 
-    (ctx.req.session.cookie as any).userId  = user._id.toString()
-    console.log("🚀 ~ file: login.ts ~ line 41 ~ loginResolver ~ (ctx.req.session as any).userId ", (ctx.req.session as any).userId )
+    if(!user.confirmed) {
+        const error = new Error( "Email not confirmed");
+        (error as any).code = 401;
+        throw error  
+    }
+
+    (ctx .req.session as any).userId  = user._id.toString()
     
     return user;
   }
