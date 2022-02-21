@@ -5,13 +5,15 @@ import { buildSchema } from "type-graphql";
 import { HelloResolver } from "./modules/users/Register";
 const mongoose = require("mongoose");
 import session from "express-session";
-import cors from 'cors'
+import cors from "cors";
 import { loginResolver } from "./modules/users/login";
-import clc from 'cli-color'
+import clc from "cli-color";
+import { sendEmail } from "./modules/utils/sendEmail";
+import { ConfirmUserResolver } from "./modules/users/confirmUser";
 
 const main = async () => {
   const schema = await buildSchema({
-    resolvers: [HelloResolver,loginResolver],
+    resolvers: [__dirname + "/modules/**/*.ts"],
     nullableByDefault: true,
     // authChecker: (
     //   {  context: {req} }
@@ -24,12 +26,11 @@ const main = async () => {
     schema,
     context: ({ req }: any) => ({ req }),
     introspection: true,
-
   });
   await apolloServer.start();
 
   const app = Express();
-  
+
   // app.use(cors({
   //   credentials: true,
   //   origin: "http://localhost:3000"
@@ -49,7 +50,7 @@ const main = async () => {
   app.use(session(sessionOpts));
 
   apolloServer.applyMiddleware({ app });
-  
+
   //coloring console log
   var error = clc.black.bgRed.bold;
   var success = clc.black.bgGreen.bold;

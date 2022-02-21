@@ -16,6 +16,8 @@ import { UserObjBase } from "./register/RegisterInput";
 import bcrypt from "bcryptjs";
 import { isAuth } from "../middleware/isAuth";
 import { logger } from "../middleware/logger";
+import { sendEmail } from "../utils/sendEmail";
+import { createConfirmationUrl } from "../utils/createConfirmationUrl";
 
 @ObjectType()
 class UserObj extends UserObjBase {
@@ -64,6 +66,7 @@ export class HelloResolver {
       lastName: inputs.lastName,
     });
 
+    await sendEmail(user.email, await createConfirmationUrl(user.id))
     return user
   }
 }
