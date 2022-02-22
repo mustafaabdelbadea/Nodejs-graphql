@@ -10,6 +10,7 @@ import { loginResolver } from "./modules/users/login";
 import clc from "cli-color";
 import { sendEmail } from "./modules/utils/sendEmail";
 import { ConfirmUserResolver } from "./modules/users/confirmUser";
+import { fieldExtensionsEstimator, getComplexity, simpleEstimator } from "graphql-query-complexity";
 
 const main = async () => {
   const schema = await buildSchema({
@@ -26,6 +27,31 @@ const main = async () => {
     schema,
     context: ({ req, res }: any) => ({ req, res }),
     introspection: true,
+    plugins: [
+      {
+        requestDidStart: () => ({
+          didResolveOperation({ request, document }) {
+            const complexity = getComplexity({
+              
+              schema,
+              operationName: request.operationName,
+              query: document,
+              variables: request.variables,
+              estimators: [
+                fieldExtensionsEstimator(),
+                simpleEstimator({ defaultComplexity: 1}),
+              ],
+            });
+            if (complexity > 2) {
+              throw new Error(
+                `Sorry, too complicated query! ${complexity} is over 1 that is the max allowed complexity.`,
+              );
+            }
+            console.log("Used query complexity points:", complexity);
+          },
+        }) as any,
+      },
+    ],
   });
   await apolloServer.start();
 

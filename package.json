@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": " ts-node-dev --inspect=9231 --respawn src/index.ts"
+    "start": " ts-node-dev --inspect=9231 --respawn src/index.ts",
+    "db:setup": "ts-node ./src/test-utils/setup.ts",
+    "test": "npm run db:setup && jest"
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +27,8 @@
     "express": "^4.17.3",
     "express-session": "^1.17.2",
     "graphql": "^15.3.0",
+    "graphql-query-complexity": "^0.11.0",
+    "graphql-upload": "^13.0.0",
     "ioredis": "^4.28.5",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
@@ -34,6 +38,7 @@
     "ts-node-dev": "^1.1.8",
     "tsc-node": "0.0.3",
     "type-graphql": "^1.1.1",
+    "typeorm": "^0.2.43",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
