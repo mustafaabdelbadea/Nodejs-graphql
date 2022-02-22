@@ -12,7 +12,7 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import { UserDocuemt, UserModel } from "../../models/Users";
-import { UserObjBase } from "./register/RegisterInput";
+import { UserCreateInputs, UserObjBase } from "./register/RegisterInput";
 import bcrypt from "bcryptjs";
 import { isAuth } from "../middleware/isAuth";
 import { logger } from "../middleware/logger";
@@ -56,7 +56,7 @@ export class HelloResolver {
   //   }
   @UseMiddleware(logger)
   @Mutation(() => UserObj)
-  async register(@Arg("inputs") inputs: UserObjBase): Promise<UserObj> {
+  async register(@Arg("inputs") inputs: UserCreateInputs): Promise<UserObj> {
     const hashedPassword = await bcrypt.hash(inputs.password, 12);
 
     const user = await UserModel.create({

@@ -2,9 +2,26 @@ import { UserDocuemt, UserModel } from "../../../models/Users";
 import { Field, InputType, ObjectType, Root } from "type-graphql";
 import { IsEmailAlreadyExist, IsEmailAlreadyExistConstraint } from "./isEmailExists";
 
-@InputType("UserCreateInputs")
 @ObjectType()
 export class UserObjBase {
+  @Field()
+  firstName?: String;
+
+  @Field()
+  lastName?: String;
+
+  @Field()
+  email?: String;
+
+  @Field()
+  password?: String;
+
+  @Field()
+  confirmed?: Boolean;
+}
+
+@InputType()
+export class UserCreateInputs {
   @Field()
   firstName?: String;
 
@@ -18,8 +35,6 @@ export class UserObjBase {
   @Field()
   password?: String;
 
-  @Field()
-  confirmed?: Boolean;
 }
 
 
